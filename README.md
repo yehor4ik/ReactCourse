@@ -1,2 +1,2 @@
 # ReactCourse
-Code that was developer during react course
+Code that was developed during the lessons
