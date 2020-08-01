@@ -4,7 +4,7 @@ export const goods = [
     {
         id: uuidv4(),
         title: "Milk",
-        weight: "1,5",
+        weight: "1.5",
         description: "For kids"
     },
     {
@@ -16,13 +16,13 @@ export const goods = [
     {
         id: uuidv4(),
         title: "Eggs",
-        weight: "0,5",
+        weight: "0.5",
         description: "Breakfast"
     },
     {
         id: uuidv4(),
         title: "Butter",
-        weight: "0,5",
+        weight: "0.5",
         description: "Sandwich"
     },
     {

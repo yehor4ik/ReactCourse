@@ -14,3 +14,9 @@ export const addNewItem = (data, goods) => {
 export const removeElementById = (id, goods) => {
     return goods.filter((e) => e.id !== id)
 }
+
+export const getTotal = (goods) => {
+    return goods.reduce((acc, item) => {
+        return acc + parseFloat(item.weight);
+    }, 0)
+}
