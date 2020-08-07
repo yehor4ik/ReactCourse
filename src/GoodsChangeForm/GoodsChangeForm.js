@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'; 
+import PropTypes from 'prop-types';
 
-import './GoodsListForm.css';
+import './GoodsChangeForm.css';
 
-import { downDropList } from '../Mocks/GoodsMock'
+import { downDropList } from '../Mocks/GoodsMock';
 
-export default class GoodsListForm extends Component {
+export default class GoodsChangeForm extends Component {
 
     state = {
         title: '',
         weight: '',
         description: '',
         value: 'important',
-    }
+    };
+
+    onInputChange = ({ target }) => {
+        this.setState({
+            [target.name]: target.value
+        })
+    };
 
     onFormSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         if(this.state.weight === '') {
             alert('you have to put a number in cell description ')
             return this.setState({
@@ -25,21 +31,14 @@ export default class GoodsListForm extends Component {
                 value: 'important'
             })
         }
-        this.props.onAdd(this.state)
+        this.props.onChange(this.state)
         this.setState({
             title: '',
             weight: '',
             description: '',
-            value: 'important'
+            value: 'important',
         })
-    }
-
-    onInputChange = ({ target }) => {
-        this.setState({
-            [target.name]: target.value
-
-        })
-    }
+    };
 
     onChangeValue = ({ target }) => {
         this.setState({
@@ -47,8 +46,9 @@ export default class GoodsListForm extends Component {
         })
     };
 
+
     render() {
-        const { title, weight, description } = this.state
+        const { title, weight, description } = this.state;
 
         const option = downDropList.map(( { id, name, label }) => {
             return (
@@ -58,46 +58,49 @@ export default class GoodsListForm extends Component {
             );
         })
 
+        if(!this.props.changeId) {
+            return <div className="cell"></div>
+        }
+
         return (
             <div className="cell">
-                <form 
-                    className="GoodsListForm" 
-                    onSubmit={this.onFormSubmit}
-                >
-                    <input 
+                <form className="ChangeForm warning" onSubmit={this.onFormSubmit}>
+                    <input
                         type="text"
-                        className="GoodsListFormInput" 
+                        className="ChangeFormItem"
                         placeholder="Title"
                         name="title"
                         value={title}
                         onChange={this.onInputChange}
                     />
-                    <input 
+                    <input
                         type="number"
-                        className="GoodsListFormInput" 
+                        className="ChangeFormItem"
                         placeholder="Weight"
                         name="weight"
                         value={weight}
                         onChange={this.onInputChange}
                     />
-                    <input 
+                    <input
                         type="text"
-                        className="GoodsListFormInput" 
+                        className="ChangeFormItem"
                         placeholder="Description"
                         name="description"
                         value={description}
                         onChange={this.onInputChange}
                     />
-                    <select name="choose" onChange={this.onChangeValue}> 
+                    <select name="choose" onChange={this.onChangeValue}>
                         {option}
                     </select>
-                    <button className="GoodsListFormButton">Add</button>
+                    <button className="ChangeFormButton">Change</button>
                 </form>
             </div>
         )
     }
 }
 
-GoodsListForm.propTypes = {
-    onAdd: PropTypes.func
+GoodsChangeForm.propTypes = {
+    changeId: PropTypes.string,
+    onChange: PropTypes.func
+
 };

@@ -1,5 +1,4 @@
-.GoodsListForm {
-    display: inline-block;
+.ChangeForm {
     display: flex;
     flex-direction: column;
     text-align: left;
@@ -7,28 +6,16 @@
     width: 80%;
 }
 
-.GoodsListFormInput {
+.ChangeFormItem {
     display: flex;
     margin: 5px;
     width: 30%;
 }
 
-.GoodsListFormButton {
+.ChangeFormButton {
     display: flex;
     margin: 5px;
     width: 20%;
     text-align: center;
     justify-content: center;
-}
-
-.cell {
-    width: 50%;
-}
-
-.cell select {
-    width: 15%;
-}
-
-.warning {
-    border: 2px solid yellow;
 }
