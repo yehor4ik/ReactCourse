@@ -1,20 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import './Counter.css';
 
-export default class Counter extends Component {
+export default function Counter({total, resultCounter}) {
 
-    render() {
         return (
             <div className="Counter">
                 <div>Total:</div>
-                <div>{this.props.total}</div>
+                <div>{total}</div>
                 <div>Chose:</div>
-                <div>{this.props.resultCounter}</div>
+                <div>{resultCounter}</div>
             </div>
         )
-    }
 };
 
 Counter.propTypes = {

@@ -42,6 +42,10 @@ export const selectedResult = (items) => {
 }
 
 export const findElementById = (id, goods) => {
+    console.log(id)
+
+    console.log(goods)
+
     return goods.find((el) => el.id === id);
 }; 
 

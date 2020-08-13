@@ -1,12 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import GoodsListElement from '../GoodsListElement/GoodsListElement'
 import PropTypes from 'prop-types';
 
-export default class GoodsList extends Component {
-
-    
-    render() {
-        const { goods, onDelete, onCounter, getId} = this.props;
+export default function GoodsList({ goods, onDelete, onCounter, getId}) {
 
         const element =  Array.isArray(goods) && goods.map( ({ id, ...good }) => {
             return (
@@ -25,7 +21,6 @@ export default class GoodsList extends Component {
                 {element}
             </div>
         )
-    }
 }
 
 GoodsList.defaultProps = {

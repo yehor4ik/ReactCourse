@@ -1,18 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import './GoodsListElement.css';
 
-export default class GoodsListElement extends Component {
-    state = {
-        change: false
-    };
+export default function GoodsListElement(props) {
 
-    render() {
-
-        const { title, weight, description, value } = this.props.good
-        const { onCounter, onDelete, getId } = this.props
-
+    const { title, weight, description, value } = props.good
+    const { onCounter, onDelete, getId } = props
+    
         let className = 'GoodsListElement';
         let changeValue = value;
 
@@ -45,7 +40,6 @@ export default class GoodsListElement extends Component {
                 </div>
             </React.Fragment>
         )
-    }
 }
 
 GoodsListElement.propTypes = {

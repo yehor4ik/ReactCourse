@@ -1,56 +1,57 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types'; 
+import React, { useCallback, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import './GoodsListForm.css';
 
 import { downDropList } from '../Mocks/GoodsMock'
 
-export default class GoodsListForm extends Component {
+export default function GoodsListForm({ onAdd }) {
 
-    state = {
+    const [form, setForm] = useState({
         title: '',
         weight: '',
         description: '',
         value: 'important',
-    }
+    })
 
-    onFormSubmit = (e) => {
+    const onFormSubmit = useCallback(
+        (e) => {
         e.preventDefault()
-        if(this.state.weight === '') {
+        if (form.weight === '') {
             alert('you have to put a number in cell description ')
-            return this.setState({
+            setForm({
                 title: '',
                 weight: '',
                 description: '',
                 value: 'important'
             })
         }
-        this.props.onAdd(this.state)
-        this.setState({
+        onAdd(form)
+        setForm({
             title: '',
             weight: '',
             description: '',
             value: 'important'
         })
-    }
+    },
+    [onAdd, form]
+    )
 
-    onInputChange = ({ target }) => {
-        this.setState({
-            [target.name]: target.value
-
+    const onInputChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value
         })
     }
 
-    onChangeValue = ({ target }) => {
-        this.setState({
-            value: target.value
-        })
-    };
+        const onChangeValue = (e) => {
+            setForm({
+                ...form,
+                value: e.target.value
+            })
+        }
 
-    render() {
-        const { title, weight, description } = this.state
-
-        const option = downDropList.map(( { id, name, label }) => {
+        const option = downDropList.map(({ id, name, label }) => {
             return (
                 <option key={id} value={label}>
                     {name}
@@ -60,35 +61,35 @@ export default class GoodsListForm extends Component {
 
         return (
             <div className="cell">
-                <form 
-                    className="GoodsListForm" 
-                    onSubmit={this.onFormSubmit}
+                <form
+                    className="GoodsListForm"
+                    onSubmit={onFormSubmit}
                 >
-                    <input 
+                    <input
                         type="text"
-                        className="GoodsListFormInput" 
+                        className="GoodsListFormInput"
                         placeholder="Title"
                         name="title"
-                        value={title}
-                        onChange={this.onInputChange}
+                        value={form.title}
+                        onChange={onInputChange}
                     />
-                    <input 
+                    <input
                         type="number"
-                        className="GoodsListFormInput" 
+                        className="GoodsListFormInput"
                         placeholder="Weight"
                         name="weight"
-                        value={weight}
-                        onChange={this.onInputChange}
+                        value={form.weight}
+                        onChange={onInputChange}
                     />
-                    <input 
+                    <input
                         type="text"
-                        className="GoodsListFormInput" 
+                        className="GoodsListFormInput"
                         placeholder="Description"
                         name="description"
-                        value={description}
-                        onChange={this.onInputChange}
+                        value={form.description}
+                        onChange={onInputChange}
                     />
-                    <select name="choose" onChange={this.onChangeValue}> 
+                    <select name="choose" onChange={onChangeValue}>
                         {option}
                     </select>
                     <button className="GoodsListFormButton">Add</button>
@@ -96,8 +97,7 @@ export default class GoodsListForm extends Component {
             </div>
         )
     }
-}
 
-GoodsListForm.propTypes = {
-    onAdd: PropTypes.func
-};
+    GoodsListForm.propTypes = {
+        onAdd: PropTypes.func
+    }
