@@ -1,69 +1,50 @@
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import './GoodsChangeForm.css';
 
-import { downDropList } from '../Mocks/GoodsMock';
+import * as formChangeActions from '../Store/actions/formChangeActions';
+import * as goodsActions from '../Store/actions/goodsActions';
 
-export default function GoodsChangeForm({ changeId, onChange }) {
+const GoodsChangeForm = (props) => {
 
-    const [form, setForm] = useState({
-        title: '',
-        weight: '',
-        description: '',
-        value: 'important'
-    })
+    const { title, weight, description } = props.changeForm;
 
     const onInputChange = (e) => {
-        setForm({
-            ...form,
+        props.formChangeActions.changeForm({
             [e.target.name]: e.target.value
         })
     }
 
     const onFormSubmit = useCallback(
         (e) => {
-            e.preventDefault();
-            if (form.weight === '') {
+            e.preventDefault()
+            if (weight === '') {
                 alert('you have to put a number in cell description ')
-                setForm({
-                    title: '',
-                    weight: '',
-                    description: '',
-                    value: 'important'
-                })
+                return props.formChangeActions.clearForm()
             }
-            onChange(form)
-            setForm({
-                title: '',
-                weight: '',
-                description: '',
-                value: 'important',
-            })
+            props.goodsActions.onChange(props.changeForm)
         },
-        [onChange, form ],
+        [ props.formChangeActions, props.goodsActions, props.changeForm, weight]
     )
 
     const onChangeValue = (e) => {
-        setForm({
-            ...form,
+        props.formChangeActions.changeForm({
             value: e.target.value
         })
     }
 
-
-    const option = downDropList.map(({ id, name, label }) => {
+    const option = props.downDropList.map(({ id, name, label }) => {
         return (
             <option key={id} value={label}>
                 {name}
             </option>
         );
     })
-
-    if (!changeId) {
+    if (!props.goods.changeId) {
         return <div className="cell"></div>
     }
-
     return (
         <div className="cell">
             <form className="ChangeForm warning" onSubmit={onFormSubmit}>
@@ -72,7 +53,7 @@ export default function GoodsChangeForm({ changeId, onChange }) {
                     className="ChangeFormItem"
                     placeholder="Title"
                     name="title"
-                    value={form.title}
+                    value={title}
                     onChange={onInputChange}
                 />
                 <input
@@ -80,7 +61,7 @@ export default function GoodsChangeForm({ changeId, onChange }) {
                     className="ChangeFormItem"
                     placeholder="Weight"
                     name="weight"
-                    value={form.weight}
+                    value={weight}
                     onChange={onInputChange}
                 />
                 <input
@@ -88,7 +69,7 @@ export default function GoodsChangeForm({ changeId, onChange }) {
                     className="ChangeFormItem"
                     placeholder="Description"
                     name="description"
-                    value={form.description}
+                    value={description}
                     onChange={onInputChange}
                 />
                 <select name="choose" onChange={onChangeValue}>
@@ -98,11 +79,21 @@ export default function GoodsChangeForm({ changeId, onChange }) {
             </form>
         </div>
     )
-
 }
 
-GoodsChangeForm.propTypes = {
-    changeId: PropTypes.string,
-    onChange: PropTypes.func
+const mapStateToProps = state => {
+    return {
+        changeForm: state.changeForm,
+        downDropList: state.downDropList.downDropList,
+        goods: state.goods
+    }
+}
 
-};
+const mapDispatchToProps = dispatch => {
+    return {
+        formChangeActions: bindActionCreators(formChangeActions, dispatch),
+        goodsActions: bindActionCreators(goodsActions, dispatch),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GoodsChangeForm)

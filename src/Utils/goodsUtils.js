@@ -42,16 +42,18 @@ export const selectedResult = (items) => {
 }
 
 export const findElementById = (id, goods) => {
-    console.log(id)
-
-    console.log(goods)
 
     return goods.find((el) => el.id === id);
 }; 
 
-export const changeElementById = (element, array, text) => {
-    const idx = array.findIndex((el) => el.id === element.id);
-    const newElement = Object.assign(element, text)
-    array[idx] = newElement;
-    return array
-};
+export const changeElementById = (id, array, form) => {
+    const {title, weight, description, value} = form
+    const idx = array.findIndex((el) => el.id === id);
+    const oldElement = array[idx];
+    const newElement = { ...oldElement, title, weight, description, value }   
+    return [
+        ...array.slice(0, idx),
+        newElement,
+        ...array.slice(idx + 1)
+    ]
+}; 
