@@ -47,13 +47,10 @@ export const findElementById = (id, goods) => {
 }; 
 
 export const changeElementById = (id, array, form) => {
-    const {title, weight, description, value} = form
-    const idx = array.findIndex((el) => el.id === id);
-    const oldElement = array[idx];
-    const newElement = { ...oldElement, title, weight, description, value }   
-    return [
-        ...array.slice(0, idx),
-        newElement,
-        ...array.slice(idx + 1)
-    ]
+    return array.map((el) => {
+        if(el.id === id) {
+            return {...el, ...form}
+        }
+        return el
+    })
 }; 
